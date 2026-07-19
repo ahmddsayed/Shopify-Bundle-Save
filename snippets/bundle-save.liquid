@@ -1,0 +1,454 @@
+{%- if product.tags contains 'show-bundle' -%}
+<div
+  class="bundle-save-container"
+  id="bundle-save-block-{{ block.id }}"
+  data-base-price="{{ product.price }}"
+  data-compare-price="{{ product.compare_at_price | default: product.price }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="bundle-save-header">
+    <hr class="bundle-hr">
+    <h3 class="bundle-heading">Bundle &amp; Save</h3>
+    <hr class="bundle-hr">
+  </div>
+
+  <div class="bundle-options" id="bundle-options-{{ block.id }}">
+    <!-- Option 1 -->
+    <div class="bundle-option bundle-option--active" role="radio" aria-checked="true" tabindex="0" data-qty="1" data-discount="0">
+      <div class="bundle-radio-wrap">
+        <span class="bs-custom-radio bs-custom-radio--active"></span>
+      </div>
+      <div class="bundle-details">
+        <span class="bundle-title">1 Pair</span>
+        <span class="bundle-shipping">FREE SHIPPING</span>
+      </div>
+      <div class="bundle-pricing">
+        <span class="bundle-price" data-price-target>{{ product.price | money }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <span class="bundle-compare-price" data-compare-target>{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Option 2 -->
+    <div class="bundle-option" role="radio" aria-checked="false" tabindex="0" data-qty="2" data-discount="0.20">
+      <div class="bundle-badge bs-no-events">Most Popular</div>
+      <div class="bundle-radio-wrap">
+        <span class="bs-custom-radio"></span>
+      </div>
+      <div class="bundle-details">
+        <div class="bundle-title-row">
+          <span class="bundle-title">2 Pairs</span>
+          <span class="bundle-tag">Extra 20% OFF</span>
+        </div>
+        <span class="bundle-shipping">FREE SHIPPING</span>
+      </div>
+      <div class="bundle-pricing">
+        {%- assign price2 = product.price | times: 2 | times: 0.80 -%}
+        {%- assign base_compare2 = product.compare_at_price | default: product.price -%}
+        {%- assign compare2 = base_compare2 | times: 2 -%}
+        <span class="bundle-price" data-price-target>{{ price2 | money }}</span>
+        <span class="bundle-compare-price" data-compare-target>{{ compare2 | money }}</span>
+      </div>
+    </div>
+
+    <!-- Option 3 -->
+    <div class="bundle-option" role="radio" aria-checked="false" tabindex="0" data-qty="3" data-discount="0.25">
+      <div class="bundle-badge bs-no-events">Best Deal</div>
+      <div class="bundle-radio-wrap">
+        <span class="bs-custom-radio"></span>
+      </div>
+      <div class="bundle-details">
+        <div class="bundle-title-row">
+          <span class="bundle-title">3 Pairs</span>
+          <span class="bundle-tag">Extra 25% OFF</span>
+        </div>
+        <span class="bundle-shipping">FREE SHIPPING</span>
+      </div>
+      <div class="bundle-pricing">
+        {%- assign price3 = product.price | times: 3 | times: 0.75 -%}
+        {%- assign base_compare3 = product.compare_at_price | default: product.price -%}
+        {%- assign compare3 = base_compare3 | times: 3 -%}
+        <span class="bundle-price" data-price-target>{{ price3 | money }}</span>
+        <span class="bundle-compare-price" data-compare-target>{{ compare3 | money }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.bundle-save-container {
+  margin: 24px 0;
+  font-family: inherit;
+  pointer-events: auto;
+  position: relative;
+  z-index: 0;
+}
+.bundle-save-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.bundle-hr {
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0;
+}
+.bundle-heading {
+  margin: 0 15px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  white-space: nowrap;
+}
+.bundle-options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bundle-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border: 2px solid #f9cce0;
+  background-color: #fdf1f6;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bundle-option:hover {
+  border-color: #e890b8;
+}
+.bundle-option--active {
+  border-color: #7c123d !important;
+  background-color: #ffffff !important;
+}
+.bundle-radio-wrap {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.bs-custom-radio {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #f9cce0;
+  border-radius: 50%;
+  position: relative;
+  background-color: #fff;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease;
+  pointer-events: none;
+}
+.bundle-option--active .bs-custom-radio {
+  border-color: #7c123d;
+}
+.bundle-option--active .bs-custom-radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background-color: #7c123d;
+  border-radius: 50%;
+}
+.bundle-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.bundle-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bundle-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+}
+.bundle-tag {
+  font-size: 11px;
+  padding: 2px 6px;
+  border: 1px solid #f9cce0;
+  border-radius: 4px;
+  color: #7c123d;
+  background-color: #fff;
+  font-weight: 600;
+}
+.bundle-shipping {
+  font-size: 12px;
+  color: #f08cb6;
+  margin-top: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.bundle-pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.bundle-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111;
+}
+.bundle-compare-price {
+  font-size: 14px;
+  color: #888;
+  text-decoration: line-through;
+  margin-top: 2px;
+}
+.bundle-badge {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background-color: #7c123d;
+  color: #fff;
+  padding: 4px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 6px;
+  z-index: 2;
+  pointer-events: none;
+}
+.bundle-badge::before,
+.bundle-badge::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  border-style: solid;
+  pointer-events: none;
+}
+.bundle-badge::before {
+  left: 4px;
+  border-width: 5px 6px 0 0;
+  border-color: #520b28 transparent transparent transparent;
+}
+.bundle-badge::after {
+  right: 4px;
+  border-width: 5px 0 0 6px;
+  border-color: #520b28 transparent transparent transparent;
+}
+.bs-no-events {
+  pointer-events: none !important;
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ---- Container ---- */
+  var container = document.getElementById('bundle-save-block-{{ block.id }}');
+  if (!container) return;
+
+  var options = Array.prototype.slice.call(container.querySelectorAll('.bundle-option'));
+  var basePrice = parseInt(container.getAttribute('data-base-price'), 10) || 0;
+  var compareBase = parseInt(container.getAttribute('data-compare-price'), 10) || basePrice;
+  container.bundleSelectedQty = '1';
+
+  /* ---- Guard: prevent double-add from overlapping event handlers ---- */
+  var addInProgress = false;
+
+  /* ---- Money formatting ---- */
+  function formatMoney(cents) {
+    if (typeof Shopify !== 'undefined' && typeof Shopify.formatMoney === 'function') {
+      return Shopify.formatMoney(cents, "{{ shop.money_format }}");
+    }
+    return '$' + (cents / 100).toFixed(2);
+  }
+
+  /* ---- Render prices from JS ---- */
+  function renderPrices() {
+    options.forEach(function(opt) {
+      var qty = parseInt(opt.getAttribute('data-qty'), 10) || 1;
+      var discount = parseFloat(opt.getAttribute('data-discount')) || 0;
+      var finalPrice = (basePrice * qty) * (1 - discount);
+      var comparePrice = (compareBase * qty);
+      var priceEl = opt.querySelector('[data-price-target]');
+      var compareEl = opt.querySelector('[data-compare-target]');
+      if (priceEl) priceEl.innerHTML = formatMoney(finalPrice);
+      if (compareEl) compareEl.innerHTML = formatMoney(comparePrice);
+    });
+  }
+  renderPrices();
+
+  /* ---- Visual selection ---- */
+  function selectOption(chosen) {
+    options.forEach(function(opt) {
+      opt.classList.remove('bundle-option--active');
+      opt.setAttribute('aria-checked', 'false');
+      var dot = opt.querySelector('.bs-custom-radio');
+      if (dot) dot.classList.remove('bs-custom-radio--active');
+    });
+    chosen.classList.add('bundle-option--active');
+    chosen.setAttribute('aria-checked', 'true');
+    var chosenDot = chosen.querySelector('.bs-custom-radio');
+    if (chosenDot) chosenDot.classList.add('bs-custom-radio--active');
+    container.bundleSelectedQty = chosen.getAttribute('data-qty') || '1';
+  }
+
+  /* ---- Option click handlers ---- */
+  options.forEach(function(opt) {
+    opt.addEventListener('click', function() { selectOption(this); });
+    opt.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectOption(this); }
+    });
+  });
+
+  /* ============================================================
+     BULLETPROOF SOLUTION — Direct Cart API + Checkout redirect
+
+     This store has "Skip cart" enabled on the Buy Buttons block,
+     meaning the merchant WANTS customers sent straight to
+     checkout after Add to Cart. The theme's native behaviour,
+     however, ignores the Bundle's selected quantity and always
+     sends qty=1. This script fixes that by:
+
+       1. Intercepting clicks/submits using event delegation on
+          `document` (capture phase) so it works no matter which
+          order the theme blocks render in.
+       2. Adding the CORRECT quantity (1 / 2 / 3) to the cart via
+          /cart/add.js directly.
+       3. Redirecting to /checkout ourselves once the add succeeds,
+          preserving the "Skip cart" intent but with the right qty.
+  ============================================================ */
+
+  /* ---- Resolve current variant ID from the DOM ---- */
+  function getVariantId() {
+    var pf = document.getElementById('product-form-{{ section.id }}');
+    if (pf) {
+      var inp = pf.querySelector('[name="id"]');
+      if (inp && inp.value) return inp.value;
+    }
+    return null;
+  }
+
+  /* ---- Resolve the ATC button (only used for loading state) ---- */
+  function getAtcButton() {
+    return document.getElementById('ProductSubmitButton-{{ section.id }}')
+        || document.querySelector('[name="add"].product-form__submit')
+        || document.querySelector('[name="add"]');
+  }
+
+  /* ---- Manage the loading spinner inside the button ---- */
+  function getSpinner(btn) {
+    return btn ? btn.querySelector('.loading__spinner, .loading-spinner') : null;
+  }
+
+  function showLoading(btn) {
+    if (!btn) return;
+    btn.setAttribute('disabled', '');
+    btn.setAttribute('aria-disabled', 'true');
+    btn.classList.add('loading');
+    var sp = getSpinner(btn);
+    if (sp) sp.classList.remove('hidden');
+  }
+
+  function hideLoading(btn) {
+    if (!btn) return;
+    btn.removeAttribute('disabled');
+    btn.removeAttribute('aria-disabled');
+    btn.classList.remove('loading');
+    var sp = getSpinner(btn);
+    if (sp) sp.classList.add('hidden');
+  }
+
+  /* ---- Show inline error message ---- */
+  function showError(msg) {
+    var wrapper = document.querySelector('.product-form__error-message-wrapper');
+    var el = document.querySelector('.product-form__error-message');
+    if (wrapper && el) {
+      el.textContent = msg;
+      wrapper.removeAttribute('hidden');
+    }
+  }
+
+  /* ---- THE CART API CALL ---- */
+  function bundleAddToCart() {
+    if (addInProgress) return;
+    addInProgress = true;
+
+    var variantId = getVariantId();
+    if (!variantId) {
+      console.error('[Bundle & Save] No variant ID found.');
+      addInProgress = false;
+      return;
+    }
+
+    var qty = parseInt(container.bundleSelectedQty, 10) || 1;
+    var atcBtn = getAtcButton();
+
+    console.log('[Bundle & Save] Adding to cart. Variant:', variantId, 'Qty:', qty);
+
+    showLoading(atcBtn);
+
+    var payload = { id: parseInt(variantId, 10), quantity: qty };
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r) {
+      if (!r.ok) {
+        return r.json().then(function(err) {
+          throw new Error(err.description || 'Cart add failed (' + r.status + ')');
+        });
+      }
+      return r.json();
+    })
+    .then(function() {
+      console.log('[Bundle & Save] Cart add success. Redirecting to checkout...');
+      window.location.href = '/checkout';
+    })
+    .catch(function(err) {
+      console.error('[Bundle & Save] Cart add error:', err);
+      hideLoading(atcBtn);
+      showError(err.message || 'Something went wrong. Please try again.');
+      addInProgress = false;
+    });
+  }
+
+  /* ---- INTERCEPTION: Document-level delegation (works no matter block order) ---- */
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('#ProductSubmitButton-{{ section.id }}, [name="add"].product-form__submit');
+    if (!btn) return;
+
+    /* Make sure this click belongs to THIS product's form */
+    var pf = document.getElementById('product-form-{{ section.id }}');
+    if (!pf || !pf.contains(btn)) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    bundleAddToCart();
+  }, true);
+
+  document.addEventListener('submit', function(e) {
+    var pf = document.getElementById('product-form-{{ section.id }}');
+    if (!pf || e.target !== pf) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    bundleAddToCart();
+  }, true);
+
+  console.log('[Bundle & Save] Delegated interceptors bound on document.');
+})();
+</script>
+{%- endif -%}
